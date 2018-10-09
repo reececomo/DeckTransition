@@ -72,7 +72,7 @@ final class DeckPresentationController: UIPresentationController, UIGestureRecog
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(updateForStatusBar),
-                                               name: .UIApplicationDidChangeStatusBarFrame,
+                                               name: UIApplication.didChangeStatusBarFrameNotification,
                                                object: nil)
     }
 
@@ -293,7 +293,7 @@ final class DeckPresentationController: UIPresentationController, UIGestureRecog
         }
         
         updateSnapshotViewAspectRatio()
-        containerView.bringSubview(toFront: roundedViewForPresentedView)
+        containerView.bringSubviewToFront(roundedViewForPresentedView)
         
         if presentedViewController.view.isDescendant(of: containerView) {
             UIView.animate(withDuration: 0.1) { [weak self] in

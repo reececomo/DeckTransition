@@ -42,7 +42,7 @@ final class DeckDismissingAnimationController: NSObject, UIViewControllerAnimate
         UIView.animate(
             withDuration: transitionDuration(using: transitionContext),
             delay: 0,
-            options: [UIViewAnimationOptions.curveEaseOut],
+            options: [.curveEaseOut],
             animations: {
                 dismissingViewController.view.frame = offscreenFrame
             }, completion: { finished in
