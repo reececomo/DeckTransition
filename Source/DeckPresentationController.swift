@@ -618,10 +618,10 @@ final class DeckPresentationController: UIPresentationController, UIGestureRecog
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer.isEqual(pan) && shouldAllowDrag(for: gestureRecognizer) {
             cancel(gestureRecognizer: otherGestureRecognizer)
-            return true
+            return false
         }
         
-        return false
+        return true
     }
     
     ///
@@ -629,17 +629,26 @@ final class DeckPresentationController: UIPresentationController, UIGestureRecog
     /// - Only checks the first touch
     ///
     private func shouldAllowDrag(for gestureRecognizer: UIGestureRecognizer) -> Bool {
-        guard let panGestureRecognizer = gestureRecognizer as? UIPanGestureRecognizer else { return false }
+        guard let panGestureRecognizer = gestureRecognizer as? UIPanGestureRecognizer else {
+            return false
+        }
         
-        guard presentationDelegate?.deckPresentationShouldAllowDragToBegin?(panGestureRecognizer) ?? true else { return false }
+        guard presentationDelegate?.deckPresentationShouldAllowDragToBegin?(panGestureRecognizer) ?? true else {
+            return false
+        }
         
-        guard gestureRecognizer.numberOfTouches > 0 else { return false }
+        guard gestureRecognizer.numberOfTouches > 0 else {
+            return false
+        }
         
         let touchLocation = gestureRecognizer.location(ofTouch: 0, in: presentedView)
-        guard draggableFrame.contains(touchLocation) else { return false }
+        guard draggableFrame.contains(touchLocation) else {
+            return false
+        }
         
-        return panGestureRecognizer.translation(in: presentedView).y > 0
+        let result = panGestureRecognizer.translation(in: presentedView).y >= 0
         
+        return result
     }
     
 }
